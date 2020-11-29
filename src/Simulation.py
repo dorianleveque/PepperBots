@@ -1,4 +1,5 @@
 import time
+from Robot import Robot
 import cv2
 from qibullet import PepperVirtual, SimulationManager
 import pybullet
@@ -18,6 +19,7 @@ class Simulation:
         self.simulation_manager = SimulationManager()
         self.client = simulation_manager.launchSimulation(gui=True)
         self.pepper = simulation_manager.spawnPepper(client, spawn_ground_plane=True)
+        robot = Robot(self.pepper)
         """
         handle = pepper.subscribeCamera(PepperVirtual.ID_CAMERA_BOTTOM)
         try:
@@ -29,3 +31,12 @@ class Simulation:
         except KeyboardInterrupt:
             self.simulation_manager.stopSimulation(client)
         """
+
+    def getPepper(self):
+        return self.pepper
+
+    def getClient(self):
+        return self.client
+
+    def getSimulationManager(self):
+        return self.simulationManager
