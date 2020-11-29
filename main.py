@@ -1,10 +1,11 @@
 import sys
+import Simulation
 #from src.Simulation import Simulation
 from src.TrainPerception import TrainPerception
 
 
-def launchSimulation():
-    sim = None  # Simulation()
+def runSimulation():
+    sim = Simulation()
 
 
 def trainPerception():
@@ -30,4 +31,4 @@ if __name__ == "__main__":
             """)
 
     else:
-        launchSimulation()
+        runSimulation()
