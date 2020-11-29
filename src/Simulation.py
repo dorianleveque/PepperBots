@@ -1,5 +1,5 @@
 import time
-from Robot import Robot
+from src.Robot import Robot
 import cv2
 from qibullet import PepperVirtual, SimulationManager
 import pybullet

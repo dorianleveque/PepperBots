@@ -1,5 +1,5 @@
 import sys
-import Simulation
+from src.Simulation import Simulation
 #from src.Simulation import Simulation
 from src.TrainPerception import TrainPerception
 
@@ -10,7 +10,7 @@ def runSimulation():
 
 def trainPerception():
     t = TrainPerception()
-
+    t.train()
 
 def trainCommunication():
     print("communication")
