@@ -1,6 +1,7 @@
 import sys
 import Simulation
 #from src.Simulation import Simulation
+from src.TrainPerception import TrainPerception
 
 
 def runSimulation():
@@ -8,7 +9,7 @@ def runSimulation():
 
 
 def trainPerception():
-    print("perception")
+    t = TrainPerception()
 
 
 def trainCommunication():
@@ -18,7 +19,7 @@ def trainCommunication():
 if __name__ == "__main__":
 
     if (len(sys.argv) > 2):
-        if (sys.argv[1] in ["-t", "--train"] and len(sys.argv) > 3):
+        if (sys.argv[1] in ["-t", "--train"] and len(sys.argv) > 2):
             if (sys.argv[2] == "perception"):
                 trainPerception()
             elif(sys.argv[2] == "communication"):
