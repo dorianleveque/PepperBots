@@ -18,6 +18,9 @@ from sklearn.model_selection import train_test_split
 
 
 class TrainPerception:
+    """
+    Class in charge of objet perception training of robot
+    """
 
     def __init__(self):
         self.datasetPath = "./build/images"
@@ -30,6 +33,10 @@ class TrainPerception:
         ], 3000)
 
     def generateDataset(self, objects, nbData):
+        """
+        Generate dataSet in build/images folder of workspace
+        """
+
         # delete old dataset and create a new one
         shutil.rmtree(self.datasetPath)
         os.makedirs(self.datasetPath)
@@ -84,6 +91,10 @@ class TrainPerception:
         print("> Done!")
 
     def loadData(self):
+        """
+        Load the dataset generated in workspace
+        """
+
         # Collect the classes
         classes = os.listdir(self.datasetPath)
         print('Found classes: ' + ', '.join(classes))
@@ -108,16 +119,21 @@ class TrainPerception:
         return [input, output]
 
     def unison_shuffled_copies(self, a, b):
+        """
+        shuffle
+        """
         assert len(a) == len(b)
         p = np.random.permutation(len(a))
         return a[p], b[p]
 
     def train(self):
+        """
+        Train the model with the dataset previously generated
+        """
+
         # Gather the inputs and outputs
         input, output = self.loadData()
         input, output = self.unison_shuffled_copies(input, output)
-        #train_in, test_in, train_out, test_out = train_test_split(input, output, test_size=0.20)
-        #input, output = shuffle(input, output)#unison_shuffled_copies(input, output)
 
         # Split into training and validation, using 80/20 ratio
         split = round(0.8 * np.shape(input)[0])
