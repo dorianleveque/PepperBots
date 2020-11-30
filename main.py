@@ -7,7 +7,6 @@ from src.TrainPerception import TrainPerception
 
 def runSimulation():
     sim = Simulation()
-    sim.start()
 
 
 def trainPerception():

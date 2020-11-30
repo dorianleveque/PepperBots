@@ -11,15 +11,13 @@ class Simulation:
     """
 
     def __init__(self):
-        self.simulationManager
-        self.client
-        self.pepper
+        self.sim = SimulationManager()
+        self.client = self.sim.launchSimulation()
+        self.robot = Robot(self.sim, self.client)
+        self.creerScene()
 
     def run(self):
-        self.simulation_manager = SimulationManager()
-        self.client = simulation_manager.launchSimulation(gui=True)
-        self.pepper = simulation_manager.spawnPepper(client, spawn_ground_plane=True)
-        robot = Robot(self.pepper)
+        self.robot.start()
         """
         handle = pepper.subscribeCamera(PepperVirtual.ID_CAMERA_BOTTOM)
         try:
@@ -31,6 +29,10 @@ class Simulation:
         except KeyboardInterrupt:
             self.simulation_manager.stopSimulation(client)
         """
+
+    def creerScene(self):
+        print("TODO")
+
 
     def getPepper(self):
         return self.pepper

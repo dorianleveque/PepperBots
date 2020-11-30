@@ -6,15 +6,22 @@ from src.Perception import Perception
 
 
 
-class Robot:
-    def __init__(self, refSurPepper):
-        self.th = Thread(target=pepperBehavior)
-        self.pepper = refSurPepper
-        self.perception = Perception()
-        self.th.start()
+class Robot(Thread):
+    def __init__(self, sim, client):
+        Thread.__init__(self)
+        #self.th = Thread(target=pepperBehavior)
+        self.pepper = sim.spawnPepper(client, spawn_ground_plane=True)
+
+        self.threads = [
+            Perception(self.pepper)
+        ]
+        #self.th.start()
     
-    def __del__(self):
-        self.th._stop()
+
+    def run(self):
+        while True:
+            print("hello")
+        #self.threads[1].save_img()
     
     def moveTo(self,x,y): 
         self.pepper.moveTo(x,y,math.atan2(y,x))

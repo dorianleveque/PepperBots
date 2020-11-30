@@ -15,7 +15,7 @@ class Perception(Thread):
     def __init__(self, pepper):
         Thread.__init__(self)
         self.pepper = pepper
-        self.classes = os.listdir('./images')
+        self.classes = os.listdir('./build/images')
         self.model = load_model('./assets/models/perception.h5')
         self.classifications = [];
 
