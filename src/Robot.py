@@ -19,11 +19,11 @@ class Robot:
     def moveTo(self,x,y): 
         self.pepper.moveTo(x,y,math.atan2(y,x))
 
-    def dance(self): # Thread fonction
-        return
-
-    def pepperBehavior(self):
+    def idle(self): # Thread fonction
         self.pepper.goToPosture("Stand", 1)
         time.sleep(2.0)
         self.pepper.goToPosture("Crouch", 1)
+
+    def pepperBehavior(self):
+        self.idle()
     
