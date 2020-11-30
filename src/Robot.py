@@ -1,8 +1,8 @@
 import math
 import time
 from threading import Thread
-from Perception import Perception
 from qibullet import PepperVirtual
+from src.Perception import Perception
 
 
 
