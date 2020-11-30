@@ -17,7 +17,7 @@ class Perception(Thread):
         self.pepper = pepper
         self.classes = os.listdir('./build/images')
         self.model = load_model('./assets/models/perception.h5')
-        self.classifications = [];
+        self.classifications = []
 
         # Initialize front camera
         self.top_camera = self.pepper.subscribeCamera(qb.PepperVirtual.ID_CAMERA_TOP)
