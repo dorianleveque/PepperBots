@@ -17,7 +17,7 @@ class Simulation:
         self.creerScene()
 
     def run(self):
-        self.robot.start()
+        self.robot.start() # Demarre le thread (execute fonction run)
         """
         handle = pepper.subscribeCamera(PepperVirtual.ID_CAMERA_BOTTOM)
         try:
@@ -30,7 +30,7 @@ class Simulation:
             self.simulation_manager.stopSimulation(client)
         """
 
-    def creerScene(self):
+    def creerScene(self): # Objets et tout 
         print("TODO")
 
 

@@ -13,13 +13,11 @@ class Robot(Thread):
 
     def __init__(self, sim, client):
         Thread.__init__(self)
-        #self.th = Thread(target=pepperBehavior)
         self.pepper = sim.spawnPepper(client, spawn_ground_plane=True)
 
         self.threads = [
             Perception(self.pepper)
         ]
-        #self.th.start()
     
 
     def run(self):
@@ -50,7 +48,7 @@ class Robot(Thread):
         detectLeft = lambda x : True if(laser <= min_laser_value for laser in laserLeft) else False
         return detectLeft, detectFront, detectRight
 
-    def wander(self):
+    def wander(self): # Deplacement sans but precis
         randomX = random.randint(-20,20)
         randomY = random.randint(-20,20)
         self.moveTo(randomX, randomY)
