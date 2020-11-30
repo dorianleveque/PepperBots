@@ -30,4 +30,5 @@ if __name__ == "__main__":
         elif("communication" in args.train):
             trainCommunication()
     else:
-        runSimulation()
+        simu = Simulation()
+        simu.run()
