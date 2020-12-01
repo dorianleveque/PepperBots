@@ -4,6 +4,7 @@ import math
 import random
 import shutil
 import time
+import json
 import numpy as np
 import qibullet as qb
 import pybullet as pb
@@ -22,21 +23,24 @@ class TrainPerception:
     Class in charge of objet perception training of robot
     """
 
-    def __init__(self):
+    def __init__(self, regenerate):
         self.datasetPath = "./build/images"
-        self.generateDataset([
-            ("empty", None, [0, 0, 1], 0),
-            ("duck", "duck_vhacd.urdf", [0, 0, 1], 5),
-            ("ball", "sphere2red.urdf", [0, 0, 1], 0.3),
-            #("chair", "./assets/chair/chair.urdf", [0.5, -0.2, 0], 1),
-            ("table", "./assets/table/table.urdf", [0, 0, 0], 1)
-        ], 3000)
+        self.modelPath = "./assets/models"
+
+        if (regenerate or not os.path.isfile(self.modelPath + '/perception.h5')):
+            self.generateDataset([
+                ("empty", None, [0, 0, 1], 0),
+                ("duck", "duck_vhacd.urdf", [0, 0, 1], 5),
+                ("ball", "sphere2red.urdf", [0, 0, 1], 0.3),
+                #("chair", "./assets/chair/chair.urdf", [0.5, -0.2, 0], 1),
+                ("table", "./assets/table/table.urdf", [0, 0, 0], 1)
+            ], 3000)
 
     def generateDataset(self, objects, nbData):
         """
         Generate dataSet in build/images folder of workspace
         """
-
+        classes = []
         # delete old dataset and create a new one
         shutil.rmtree(self.datasetPath)
         os.makedirs(self.datasetPath)
@@ -49,6 +53,7 @@ class TrainPerception:
         print('Data generation started.')
 
         for (label, model, position, scale) in objects:
+            classes.append(label)
 
             # Define the "up" vector of the camear
             cameraUpVector = [0, 0, 1]
@@ -86,8 +91,10 @@ class TrainPerception:
 
             print("> Generated " + str(nbData) + " '" + label + "' images")
             if (m != None):
-                pb.removeBody(m) 
+                pb.removeBody(m)
 
+        with open(self.modelPath + "/perception.class", 'w') as outfile:
+            json.dump(classes, outfile)
         print("> Done!")
 
     def loadData(self):
@@ -167,5 +174,5 @@ class TrainPerception:
             val_accuracy = results.history['val_accuracy'][0]
 
         # Save the model
-        model.save('./assets/models/perception.h5')
+        model.save(self.modelPath + '/perception.h5')
         print("Perception model, successfully generated !")

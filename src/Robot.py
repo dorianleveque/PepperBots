@@ -1,9 +1,9 @@
 import math
 import time
 from threading import Thread
+from queue import Queue
 from qibullet import PepperVirtual
 from src.Perception import Perception
-
 
 
 class Robot(Thread):
@@ -11,16 +11,13 @@ class Robot(Thread):
         Thread.__init__(self)
         #self.th = Thread(target=pepperBehavior)
         self.pepper = sim.spawnPepper(client, spawn_ground_plane=True)
-
-        self.threads = [
-            Perception(self.pepper)
-        ]
-        #self.th.start()
-    
+        self.perception = Perception(self.pepper)
+        self.order = Queue()
 
     def run(self):
+        self.perception.start()
         while True:
-            print("hello")
+            a = "Todo"
         #self.threads[1].save_img()
     
     def moveTo(self,x,y): 

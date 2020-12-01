@@ -2,7 +2,8 @@ import time
 from src.Robot import Robot
 import cv2
 from qibullet import PepperVirtual, SimulationManager
-import pybullet
+import pybullet as pb
+import pybullet_data as pd
 
 
 class Simulation:
@@ -14,10 +15,10 @@ class Simulation:
         self.sim = SimulationManager()
         self.client = self.sim.launchSimulation()
         self.robot = Robot(self.sim, self.client)
-        self.creerScene()
+        self.createScene()
+        self.robot.start()
 
     def run(self):
-        self.robot.start()
         """
         handle = pepper.subscribeCamera(PepperVirtual.ID_CAMERA_BOTTOM)
         try:
@@ -30,8 +31,10 @@ class Simulation:
             self.simulation_manager.stopSimulation(client)
         """
 
-    def creerScene(self):
-        print("TODO")
+    def createScene(self):
+        pb.setAdditionalSearchPath(pd.getDataPath())
+        pb.loadURDF("duck_vhacd.urdf", basePosition=[2, 0, 0], globalScaling=5)
+        time.sleep(5)
 
 
     def getPepper(self):
