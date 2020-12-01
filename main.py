@@ -37,4 +37,5 @@ if __name__ == "__main__":
         elif("communication" in args.model):
             trainCommunication(args.regenerate)
     else:
-        runSimulation()
+        simu = Simulation()
+        simu.run()
