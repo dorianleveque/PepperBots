@@ -117,6 +117,7 @@ class Robot(Thread):
 
     def getRotation(self):
         x, y, theta = self.pepper.getPosition()
+        print("Rotation: ", theta)
         return theta
 
     # stop robot
@@ -129,7 +130,7 @@ class Robot(Thread):
 
     # move to crd
     def moveTo(self,x,y,theta,asyncMode=False): 
-        self.pepper.moveTo(x,y,theta,_async=asyncMode,speed=0.6)
+        self.pepper.moveTo(x,y,theta,1,_async=asyncMode,speed=1.0)
 
     def wander(self): # Deplacement sans but precis
         randomX = random.randint(-2,2)
