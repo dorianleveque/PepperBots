@@ -93,7 +93,7 @@ class Perception(Thread):
 
         # Determine the object that is in front
         mostFrequent = max(set(classifications), key=classifications.count)
-        print(classifications, mostFrequent, targetName)
+        #print(classifications, mostFrequent, targetName)
         return mostFrequent == targetName
         #return prediction[self.classes.index(targetName)] > 0.95
 
