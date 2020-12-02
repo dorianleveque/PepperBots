@@ -5,7 +5,7 @@ from threading import Thread
 from queue import Queue
 from qibullet import PepperVirtual
 from src.Perception import Perception
-from concurrent.futures import ThreadPoolExecutor
+from multiprocessing.pool import ThreadPool
 import re
 
 class Robot(Thread):
@@ -64,43 +64,29 @@ class Robot(Thread):
         self.pepper.stopMove()
 
     def follow(self, target):
-        pool = ThreadPoolExecutor(max_workers=1)
+        #pool = ThreadPool(processes=1)
         while(not self.taskCanceled):
-            """result = self.perception.find(target)
-            if result != None:
-                # objectif devant
-                #asyncResult = pool.apply_async(self.findLocationInScreen, (target)) # tuple of args for foo
-                asyncCompute = pool.submit(self.perception.findLocationInScreen, (target))                
-                while asyncCompute.running():
-                    self.move(1, 1, 0)
-                    print("dzeafazfa")
-                objectPosition = asyncCompute.result()
-                if objectPosition != None:
-                    self.moveTo(0, 0, objectPosition[0]/32)
-                    print("yolo")
-                print("nonde")
-                
-            else:
-                self.stop()
-
-            # check obstacle"""
-            print("new one")
             result = self.perception.findLocationInScreen(target)
             if result != None:
-                #x, y = result
+                coefFoireux = result[0]/32
+                angle_foireux = -((math.pi)/2)*coefFoireux
                 x, y = self.getPosition()
-                self.moveTo(x + math.cos(self.getRotation()), y + math.sin(self.getRotation()), 0, True)
+                #self.moveTo(0.0, 0.0, ((math.pi)/2)*coefFoireux)
+                CTE = 50
+                #self.moveTo(0.0,0.0, angle_foireux, True)
+                self.moveTo(x + CTE*math.cos(self.getRotation()), y + CTE*math.sin(self.getRotation()), 0, True)
             else:
                 self.stop()
+                #self.find(target)
+                #async_result = pool.apply_async(self.find, (target))
+                #async_result.get() 
 
 
-
-        
 
     def find(self, target):
         result = False
         while(not self.taskCanceled):
-            # 8 * PI/4 = 2PI
+            # 10 * PI/5 = 2PI
             for i in range(10):
                 self.moveTo(0.0, 0.0, math.pi/5)
                 result = self.perception.find(target)
@@ -124,7 +110,7 @@ class Robot(Thread):
 
     def getRotation(self):
         x, y, theta = self.pepper.getPosition()
-        print("Rotation: ", theta)
+        #print("Rotation: ", theta)
         return theta
 
     # stop robot
@@ -137,7 +123,7 @@ class Robot(Thread):
 
     # move to crd
     def moveTo(self,x,y,theta,asyncMode=False): 
-        self.pepper.moveTo(x,y,theta,1,_async=asyncMode,speed=1.0)
+        self.pepper.moveTo(x,y,theta,1,_async=asyncMode,speed=2.0)
 
     def idle(self): # Pepper flex ! 
         self.pepper.goToPosture("Stand", 1)
