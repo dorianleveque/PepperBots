@@ -5,8 +5,8 @@ from threading import Thread
 from queue import Queue
 from qibullet import PepperVirtual
 from src.Perception import Perception
+from src.Communication import Communication
 from concurrent.futures import ThreadPoolExecutor
-import re
 
 class Robot(Thread):
 
@@ -16,49 +16,56 @@ class Robot(Thread):
         Thread.__init__(self)
         self.pepper = sim.spawnPepper(client, spawn_ground_plane=True)
         self.perception = Perception(self.pepper)
+        self.com = Communication(self)
         self.tasks = Queue()
         self.taskCanceled = False
-        self.tasks.put(("follow", "go to 20 20"))
 
     def run(self):
         self.perception.start()
+        self.com.start()
+        self.posture('stand')
         while True:
             if (not self.tasks.empty()):
                 self.doTask(self.tasks.get())
             
             if self.taskCanceled:
                 self.stop()
+                self.taskCanceled = False
 
-    
     def doTask(self, task):
         orderType, orderContent = task
 
         if (orderType == "find"):
-            self.find(orderContent)
+            self.posture('search')
+            result = self.find(orderContent)
+            if (result):
+                self.posture('point')
+                self.com.say("Found !")
+            else:
+                self.posture('notFound')
+                self.com.say("Sorry, I found nothing !")
             
         elif (orderType == "moveTo"):
-            x, y = self.getPositionFromString(orderContent)
+            x, y = orderContent
             self.moveTo(x,y,math.atan2(y,x))
+            self.com.say("I have reached my destination !")
 
         elif (orderType == "lookAt"):
-            x, y = self.getPositionFromString(orderContent)
+            self.posture('search')
+            x, y = orderContent
             self.moveTo(0,0,math.atan2(y,x))
 
+            self.com.say("Nice view !")
+
         elif (orderType == "follow"):
+            self.posture('search')
             if self.find(orderContent):
                 self.follow(orderContent)
             else:
-                print("not found")
-
-
-    def getPositionFromString(self, content):
-        position = []
-        matches = re.finditer(r"(\d+) (\d+)", content, re.MULTILINE)
-        for matchNum, match in enumerate(matches, start=1):
-            for groupNum in range(0, len(match.groups())):
-                groupNum = groupNum + 1
-                position.append(int(match.group(groupNum)))
-        return position
+                self.posture('notFound')
+                self.com.say("Sorry, I found nothing !")
+        
+        self.posture('stand')
 
     def stop(self):
         self.pepper.stopMove()
@@ -66,25 +73,6 @@ class Robot(Thread):
     def follow(self, target):
         pool = ThreadPoolExecutor(max_workers=1)
         while(not self.taskCanceled):
-            """result = self.perception.find(target)
-            if result != None:
-                # objectif devant
-                #asyncResult = pool.apply_async(self.findLocationInScreen, (target)) # tuple of args for foo
-                asyncCompute = pool.submit(self.perception.findLocationInScreen, (target))                
-                while asyncCompute.running():
-                    self.move(1, 1, 0)
-                    print("dzeafazfa")
-                objectPosition = asyncCompute.result()
-                if objectPosition != None:
-                    self.moveTo(0, 0, objectPosition[0]/32)
-                    print("yolo")
-                print("nonde")
-                
-            else:
-                self.stop()
-
-            # check obstacle"""
-            print("new one")
             result = self.perception.findLocationInScreen(target)
             if result != None:
                 #x, y = result
@@ -93,7 +81,6 @@ class Robot(Thread):
                 #self.move(1,1,0)
                 #self.moveTo(np.linalg.norm([x + math.cos(self.getRotation()),y + math.sin(self.getRotation()),0]), 0, 0)
                 
-                print("yolo")
                 
                 
             else:
@@ -110,7 +97,7 @@ class Robot(Thread):
             for i in range(10):
                 self.moveTo(0.0, 0.0, math.pi/5)
                 result = self.perception.find(target)
-                if result:
+                if result or self.taskCanceled:
                     break
             break
         return result
@@ -144,24 +131,37 @@ class Robot(Thread):
     def moveTo(self,x,y,theta,asyncMode=False): 
         self.pepper.moveTo(x,y,theta,_async=asyncMode,speed=0.6)
 
-    def idle(self): # Pepper flex ! 
-        self.pepper.goToPosture("Stand", 1)
-        time.sleep(1.0)
-        self.pepper.goToPosture("Crouch", 1)
-
-    def checkLasers(self):
-        laserRight = pepper.getRightLaserValue()
-        laserFront = pepper.getFrontLaserValue()
-        laserLeft = pepper.getLeftLaserValue()
-        detectRight = lambda x : True if(laser <= min_laser_value for laser in laserRight) else False
-        detectFront = lambda x : True if(laser <= min_laser_value for laser in laserFront) else False
-        detectLeft = lambda x : True if(laser <= min_laser_value for laser in laserLeft) else False
-        return detectLeft, detectFront, detectRight
-
     def wander(self): # Deplacement sans but precis
-        randomX = random.randint(-20,20)
-        randomY = random.randint(-20,20)
+        randomX = random.randint(-2,2)
+        randomY = random.randint(-2,2)
         self.moveTo(randomX, randomY)
+
+    def posture(self, name):
+        if name == "stand":
+            self.pepper.goToPosture("Stand", 1)
+        elif name == "point":
+            self.pepper.setAngles("LShoulderPitch", 0.09, 1)
+            self.pepper.setAngles("LShoulderRoll", -0.4, 1)
+            self.pepper.setAngles("LElbowYaw", 0.05, 1)
+            self.pepper.setAngles("LElbowRoll", 0.4, 1)
+            self.pepper.setAngles("LWristYaw", 0.7, 1)
+            self.pepper.setAngles("LHand", 1, 1)
+            time.sleep(3)
+            self.posture('stand')
+        elif name == "notFound":
+            self.pepper.setAngles('HeadYaw', -0.3,1)
+            time.sleep(1)
+            self.pepper.setAngles('HeadYaw', 0.3,1)
+            time.sleep(1)
+            self.pepper.setAngles('HeadYaw', 0,1)
+        elif name == "crouch":
+            self.pepper.goToPosture("Crouch", 1)
+        elif name == "search":
+            self.pepper.setAngles("HeadPitch", 0.3, 1)
+        time.sleep(1)
+
+
+    
         
 
 

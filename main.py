@@ -2,11 +2,10 @@ import sys
 import argparse
 from src.Simulation import Simulation
 from src.TrainPerception import TrainPerception
-from src.chatbot_learning import make_chatbot_learning
+from src.TrainCommunication import make_chatbot_learning
 
 def runSimulation():
     sim = Simulation()
-    sim.start()
 
 def trainPerception(regenerate):
     t = TrainPerception(regenerate)
@@ -19,7 +18,6 @@ def trainCommunication(regenerate):
 if __name__ == "__main__":
  
     parser = argparse.ArgumentParser(description="IML projet to test some ai feature and human / robot interaction.\nWe using qiBullet and machine learning.")
-    #group = parser.add_mutually_exclusive_group()
     subparsers = parser.add_subparsers(help='commands')
 
     # A training command
