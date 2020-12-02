@@ -12,7 +12,7 @@ def trainPerception(regenerate):
     t.train()
 
 def trainCommunication(regenerate):
-    print("af")
+    #print("af")
     make_chatbot_learning()
 
 if __name__ == "__main__":
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     train_parser.add_argument("-g", "--regenerate", action="store_true", help="remove the previous dataset and regenerate a new one")
     
     args = parser.parse_args()
-    print(args)
+    #print(args)
 
     if "model" in args:
         if ("perception" in args.model): 
