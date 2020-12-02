@@ -2,13 +2,12 @@ import json
 import nltk
 import numpy
 import random
-import tensorflow
 import tflearn
 from nltk.stem.lancaster import LancasterStemmer
-
+# Disable tensorflow warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow
 pathOfModel = "models/model.tflearn" # A modifier si besoin
-
-
 
 def retrieve_config_DNN(): # nb neurons (begin,end)
     with open("models/configDNN.txt","r") as fichier: # Le fichier doit exister
