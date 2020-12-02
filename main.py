@@ -4,7 +4,6 @@ from src.Simulation import Simulation
 from src.TrainPerception import TrainPerception
 from src.chatbot_learning import make_chatbot_learning
 
-
 def runSimulation():
     sim = Simulation()
     sim.start()

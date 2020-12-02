@@ -15,7 +15,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.layers import Dense, Conv2D, Flatten
 from tensorflow.keras.models import Sequential
-from sklearn.model_selection import train_test_split
 
 """def get2dPoint(point3D, viewMatrix, projectionMatrix, width, height):
     viewProjectionMatrix = np.multiply(projectionMatrix, viewMatrix)
