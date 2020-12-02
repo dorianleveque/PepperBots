@@ -76,3 +76,5 @@ def make_chatbot_learning():
     with open("models/configDNN.txt","w") as fichier:# Ouverture en mode écrasage. Pour stoquer le nb de neurones entrées/sorties
         fichier.write(str(len(training[0])) + "\n" + str(len(output[0])))
 
+if __name__ == "__main__":
+    make_chatbot_learning()
