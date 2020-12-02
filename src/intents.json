@@ -1,0 +1,16 @@
+{"intents": [
+    {"tag": "find_duck",
+     "patterns": ["Find the duck", "where is the duck", "duck"],
+     "responses": ["Understood, i will try to find the duck", "The duck ? Ok.", "Where is this motherfuc*er ?"],
+     "context_set": ""
+    },
+    {"tag": "pepper",
+     "patterns": ["Pepper ?", "Hey pepper !"],
+     "responses": ["Yes ?"]
+    },
+    {"tag": "not_understood",
+     "patterns": ["message au pif", "voila", "yolo"],
+     "responses": ["I don't understand"]
+    }
+]
+}
