@@ -99,17 +99,12 @@ class Perception(Thread):
 
     def findLocationInScreen(self, targetName):
         if (targetName != None):
-            image = self.getScreenShotFromCamera()
-            #pool = ThreadPool(processes=1)
-            #async_result = pool.apply_async(self.getBoundingBox, (image, targetName)) # tuple of args for foo
-            # do some other stuff in the main process
-            #boundingBox = async_result.get()  # get the return value from your function.
-            
+            image = self.getScreenShotFromCamera()            
             boundingBox = self.getBoundingBox(image, targetName)
             if (boundingBox != None):
                 accuracy, x, y, w, h = list(boundingBox)
                 cv2.rectangle(image, (x, y), (w, h), (255, 0, 0), 2)
-                cv2.putText(image, targetName + ' at %.2f' % (accuracy*100) , (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 0, 0), 2)
+                cv2.putText(image, targetName + ' at %.2f' % (accuracy*100) , (x, y+20), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 0, 0), 2)
                 self.display("Perception", image)
                 return [x - 32, y - 24]
 
@@ -131,14 +126,3 @@ class Perception(Thread):
                         bounding_boxes = (objectPrediction, x, y, x + ROI_SIZE[0], y + ROI_SIZE[1])
                     else:
                         return bounding_boxes
-
-
-    def analyseEnvironment (self):  
-
-        # Determine the object detected
-        self.classifications.append(self.classes[np.argmax(prediction)])
-        cv2.waitKey(1)
-
-        """# Generate a single distorted bounding box.
-        begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(tf.shape(top_image), bounding_boxes="", min_object_covered=0.1)
-        print(begin, size)"""

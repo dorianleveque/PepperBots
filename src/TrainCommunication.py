@@ -67,16 +67,6 @@ def make_chatbot_learning():
     output = np.array(output)
 
     # ==== Developping a model ====
-    """tensorflow.compat.v1.reset_default_graph()
-
-    net = tflearn.input_data(shape=[None, len(training[0])])
-    net = tflearn.fully_connected(net, 8)
-    net = tflearn.fully_connected(net, 8)
-    net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
-    net = tflearn.regression(net)
-
-    model = tflearn.DNN(net) # Creation de reseau de neurones profond"""
-
     model = Sequential()
     model.add(Dense(128, input_shape=(len(training[0]),), activation='relu'))
     model.add(Dropout(0.5))
@@ -90,13 +80,7 @@ def make_chatbot_learning():
 
     #fitting and saving the model
     model.fit(np.array(training), np.array(output), epochs=1000, batch_size=8, verbose=1)
-    model.save('./assets/models/chatbot_model.h5')
-
-    """model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True) # Apprentisage 
-    model.save("models/model.tflearn")
-
-    with open("models/configDNN.txt","w") as fichier:# Ouverture en mode écrasage. Pour stoquer le nb de neurones entrées/sorties
-        fichier.write(str(len(training[0])) + "\n" + str(len(output[0])))"""
+    model.save('./assets/models/communication.h5')
 
 if __name__ == "__main__":
     make_chatbot_learning()
