@@ -141,7 +141,7 @@ class TrainPerception:
             for k in range(len(next(os.walk(self.datasetPath + '/' + classe))[2])):
                 input[i] = cv2.imread(self.datasetPath + '/' + classe + '/' + str(k) + '.png')
                 output[i] = np.zeros(len(classes))
-                output[i][classes.index(classe)] = 1;
+                output[i][classes.index(classe)] = 1
                 i += 1
 
         return [input, output]
@@ -189,7 +189,7 @@ class TrainPerception:
         model.fit(train_in, train_out,  validation_data=(test_in, test_out), epochs=10000, callbacks = [es_callback])
 
         # Since accuracy can be jumpy, make sure it is above 92% at least
-        val_accuracy = 0;
+        val_accuracy = 0
         while val_accuracy < 0.90:
             results = model.fit(train_in, train_out,  validation_data=(test_in, test_out), epochs=1)
             val_accuracy = results.history['val_accuracy'][0]
