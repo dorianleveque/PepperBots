@@ -33,7 +33,8 @@ class Simulation:
 
     def createScene(self):
         pb.setAdditionalSearchPath(pd.getDataPath())
-        pb.loadURDF("duck_vhacd.urdf", basePosition=[2, 0, 0], globalScaling=5)
+        pb.loadURDF("duck_vhacd.urdf", basePosition=[4, 2, 0], globalScaling=5)
+        pb.loadURDF("sphere2red.urdf", basePosition=[2, 0.05, 1], globalScaling=1)
         time.sleep(5)
 
 

@@ -17,6 +17,21 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten
 from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
 
+"""def get2dPoint(point3D, viewMatrix, projectionMatrix, width, height):
+    viewProjectionMatrix = np.multiply(projectionMatrix, viewMatrix)
+    # transform world to clipping coordinates
+    point3D = np.outer(viewProjectionMatrix,point3D).ravel()
+    winX = round((( point3D[0] + 1 ) / 2.0) * width )
+    # we calculate -point3D.getY() because the screen Y axis is
+    # oriented top->down 
+    winY = round((( 1 - point3D[1] ) / 2.0) * height )
+    return [winX, winY]"""
+
+def get2dPoint(point3D, viewMatrix, projectionMatrix, width, height):
+    viewProjectionMatrix = np.multiply(projectionMatrix, viewMatrix)
+    screenPos = np.outer(viewProjectionMatrix,point3D).ravel()
+    screenPos = [((screenPos[0] + 1) / 2) * width, ((screenPos[1] + 1) / 2) * height, (screenPos[2] + 1) / 2]
+    return [int(width - screenPos[0]), int(screenPos[1])]
 
 class TrainPerception:
     """
@@ -33,8 +48,8 @@ class TrainPerception:
                 ("duck", "duck_vhacd.urdf", [0, 0, 1], 5),
                 ("ball", "sphere2red.urdf", [0, 0, 1], 0.3),
                 #("chair", "./assets/chair/chair.urdf", [0.5, -0.2, 0], 1),
-                ("table", "./assets/table/table.urdf", [0, 0, 0], 1)
-            ], 3000)
+                #("table", "./assets/table/table.urdf", [0, 0, 0], 1)
+            ], 10)
 
     def generateDataset(self, objects, nbData):
         """
@@ -82,6 +97,13 @@ class TrainPerception:
 
                 # Render and save the image
                 width, height, rgbaImg, depthImg, segImg = pb.getCameraImage(width=64, height=48, viewMatrix=viewMatrix, projectionMatrix=projectionMatrix)
+                #[x, y] = get2dPoint(cameraTargetPosition, viewMatrix, projectionMatrix, width, height)
+                #x = x * (40 * 56) / width
+                #y = y * (24 * 38) / height
+                #w = (1/distance) * 10
+                #h = (1/distance) * 10
+                #print(x, y, w, h)
+
                 save_path = self.datasetPath + '/' + str(label) + '/' + str(i) + '.png'
                 rgbImg = rgbaImg[:, :, :3]  # remove the alpha channel
                 cv2.imwrite(save_path, cv2.cvtColor(rgbImg, cv2.COLOR_RGB2BGR))
@@ -94,7 +116,7 @@ class TrainPerception:
                 pb.removeBody(m)
 
         with open(self.modelPath + "/perception.class", 'w') as outfile:
-            json.dump(classes, outfile)
+            json.dump(sorted(classes), outfile)
         print("> Done!")
 
     def loadData(self):
