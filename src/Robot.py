@@ -18,7 +18,7 @@ class Robot(Thread):
         self.perception = Perception(self.pepper)
         self.tasks = Queue()
         self.taskCanceled = False
-        self.tasks.put(("follow", "duck"))
+        self.tasks.put(("follow", "go to 20 20"))
 
     def run(self):
         self.perception.start()
@@ -90,7 +90,11 @@ class Robot(Thread):
                 #x, y = result
                 x, y = self.getPosition()
                 self.moveTo(x + math.cos(self.getRotation()), y + math.sin(self.getRotation()), 0)
+                #self.move(1,1,0)
+                #self.moveTo(np.linalg.norm([x + math.cos(self.getRotation()),y + math.sin(self.getRotation()),0]), 0, 0)
+                
                 print("yolo")
+                
                 
             else:
                 self.stop()

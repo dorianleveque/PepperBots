@@ -3,9 +3,12 @@ import random
 import os
 import nltk
 import numpy
-import tensorflow
 import tflearn
 from nltk.stem.lancaster import LancasterStemmer
+
+# Disable tensorflow warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow
 
 def make_chatbot_learning():
     # ==== Preparation ====

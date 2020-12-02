@@ -1,24 +1,21 @@
 import sys
 import argparse
 from src.Simulation import Simulation
-#from src.Simulation import Simulation
 from src.TrainPerception import TrainPerception
 from src.chatbot_learning import make_chatbot_learning
 
 
 def runSimulation():
     sim = Simulation()
-
+    sim.start()
 
 def trainPerception(regenerate):
     t = TrainPerception(regenerate)
     t.train()
 
 def trainCommunication(regenerate):
-    print("communication")
-    if regenerate:
-        make_chatbot_learning()
-
+    print("af")
+    make_chatbot_learning()
 
 if __name__ == "__main__":
  
@@ -40,5 +37,4 @@ if __name__ == "__main__":
         elif("communication" in args.model):
             trainCommunication(args.regenerate)
     else:
-        simu = Simulation()
-        simu.run()
+        runSimulation()

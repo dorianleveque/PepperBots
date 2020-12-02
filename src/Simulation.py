@@ -4,32 +4,25 @@ import cv2
 from qibullet import PepperVirtual, SimulationManager
 import pybullet as pb
 import pybullet_data as pd
+from threading import Thread
 
 
-class Simulation:
+class Simulation(Thread):
     """
     Classe gérant la simu
     """
 
     def __init__(self):
+        Thread.__init__(self)
         self.sim = SimulationManager()
         self.client = self.sim.launchSimulation()
         self.robot = Robot(self.sim, self.client)
         self.createScene()
         self.robot.start()
 
-    def run(self):
-        """
-        handle = pepper.subscribeCamera(PepperVirtual.ID_CAMERA_BOTTOM)
-        try:
-            while True:
-                img = pepper.getCameraFrame(handle)
-                cv2.imshow("bottom camera", img)
-                cv2.waitKey(1)
-
-        except KeyboardInterrupt:
-            self.simulation_manager.stopSimulation(client)
-        """
+    def run(self) :
+        while True:
+            print(input("Text:"))
 
     def createScene(self):
         pb.setAdditionalSearchPath(pd.getDataPath())
