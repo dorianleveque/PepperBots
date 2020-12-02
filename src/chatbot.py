@@ -8,14 +8,17 @@ from nltk.stem.lancaster import LancasterStemmer
 
 pathOfModel = "models/model.tflearn" # A modifier si besoin
 
-stemmer = LancasterStemmer()
-tensorflow.compat.v1.reset_default_graph()
+
 
 def retrieve_config_DNN(): # nb neurons (begin,end)
     with open("models/configDNN.txt","r") as fichier: # Le fichier doit exister
         texte = fichier.read()
     texte_split = texte.split("\n")
     return int(texte_split[0]), int(texte_split[1])
+
+
+stemmer = LancasterStemmer()
+tensorflow.compat.v1.reset_default_graph()
 
 # Configuration du DNN
 nbEntree, nbSortie = retrieve_config_DNN()
@@ -81,4 +84,5 @@ def chat(trained_model):
                 responses = tg['responses']
         print("Pepper: ",random.choice(responses))
 
-chat(model)
+if __name__ == "__main__":
+    chat(model)
