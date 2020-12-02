@@ -21,8 +21,9 @@ class Simulation(Thread):
         self.robot.start()
 
     def run(self) :
-        while True:
-            print(input("Text:"))
+        #while True:
+        #    print(input("Text:"))
+        pass
 
     def createScene(self):
         pb.setAdditionalSearchPath(pd.getDataPath())

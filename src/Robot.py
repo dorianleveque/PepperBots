@@ -18,7 +18,7 @@ class Robot(Thread):
         self.perception = Perception(self.pepper)
         self.tasks = Queue()
         self.taskCanceled = False
-        self.tasks.put(("follow", "go to 20 20"))
+        self.tasks.put(("follow", "duck"))
 
     def run(self):
         self.perception.start()
@@ -89,13 +89,7 @@ class Robot(Thread):
             if result != None:
                 #x, y = result
                 x, y = self.getPosition()
-                self.moveTo(x + math.cos(self.getRotation()), y + math.sin(self.getRotation()), 0)
-                #self.move(1,1,0)
-                #self.moveTo(np.linalg.norm([x + math.cos(self.getRotation()),y + math.sin(self.getRotation()),0]), 0, 0)
-                
-                print("yolo")
-                
-                
+                self.moveTo(x + math.cos(self.getRotation()), y + math.sin(self.getRotation()), 0, True)
             else:
                 self.stop()
 
@@ -130,6 +124,7 @@ class Robot(Thread):
 
     def getRotation(self):
         x, y, theta = self.pepper.getPosition()
+        print("Rotation: ", theta)
         return theta
 
     # stop robot
@@ -142,7 +137,7 @@ class Robot(Thread):
 
     # move to crd
     def moveTo(self,x,y,theta,asyncMode=False): 
-        self.pepper.moveTo(x,y,theta,_async=asyncMode,speed=0.6)
+        self.pepper.moveTo(x,y,theta,1,_async=asyncMode,speed=1.0)
 
     def idle(self): # Pepper flex ! 
         self.pepper.goToPosture("Stand", 1)

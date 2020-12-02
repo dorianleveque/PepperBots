@@ -52,7 +52,6 @@ class Perception(Thread):
         if os.path.isfile('./assets/models/perception.class') and os.path.isfile('./assets/models/perception.h5'):
             with open('./assets/models/perception.class') as content:
                 self.classes = json.load(content)
-            tf.compat.v1.disable_eager_execution()
             self.model = tf.keras.models.load_model('./assets/models/perception.h5')
         else:
             raise LoadPerceptionModelError
