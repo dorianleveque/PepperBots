@@ -18,7 +18,7 @@ Parmi les taches disponibles, vous pouvez lui demander de:
 Lorsqu'il suit un objet, il est possible de déplacer avec son curseur l'objet dans la scene. Pepper essayera de le suivre tant qu'il reste dans son champ de vision.
 
 # Fonctionnement
-Il y a deux réseaux de neurones qui ont été implémentés dans le système. Un pour la reconnaissance d'images (Perception) et l'autre pour le tchatbot (Communication).
+Il y a deux réseaux de neurones qui ont été implémentés dans le système. Un pour la reconnaissance d'images (Perception) et l'autre pour le chatbot (Communication).
 
 Le dataset de la reconnaissance d'image à été généré à l'aide de qiBullet. On a tenté de faire apprendre au modèle les coordonnées afin de générer des "bounding box" plus facilement et plus efficacement. Cela n'a pas pu etre implémenté malheureusement. Les "bounding box" sont donc calculées en réduisant successivement la fenêtre de detection.
 
