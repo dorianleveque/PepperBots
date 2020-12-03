@@ -48,7 +48,7 @@ class TrainPerception:
                 ("ball", "sphere2red.urdf", [0, 0, 1], 0.3),
                 #("chair", "./assets/chair/chair.urdf", [0.5, -0.2, 0], 1),
                 #("table", "./assets/table/table.urdf", [0, 0, 0], 1)
-            ], 10)
+            ], 3000)
 
     def generateDataset(self, objects, nbData):
         """
@@ -56,7 +56,8 @@ class TrainPerception:
         """
         classes = []
         # delete old dataset and create a new one
-        shutil.rmtree(self.datasetPath)
+        if (os.path.isdir('./build')):
+            shutil.rmtree(self.datasetPath)
         os.makedirs(self.datasetPath)
 
         # init simulation

@@ -67,6 +67,8 @@
         {
             "tag": "Follow_duck",
             "patterns": [
+                "go to the duck",
+                "go to the yellow duck",
                 "follow the duck",
                 "try to follow the duck",
                 "follow the yellow duck",
@@ -82,6 +84,8 @@
         {
             "tag": "Follow_ball",
             "patterns": [
+                "go to the ball",
+                "go to the red ball",
                 "follow the ball",
                 "try to follow the ball",
                 "follow the red ball",

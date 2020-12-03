@@ -95,7 +95,6 @@ class Perception(Thread):
         mostFrequent = max(set(classifications), key=classifications.count)
         #print(classifications, mostFrequent, targetName)
         return mostFrequent == targetName
-        #return prediction[self.classes.index(targetName)] > 0.95
 
     def findLocationInScreen(self, targetName):
         if (targetName != None):

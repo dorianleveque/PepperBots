@@ -75,7 +75,6 @@ def make_chatbot_learning():
     model.add(Dense(len(output[0]), activation='softmax'))
 
     # ==== Training and saving of the model ====
-    #sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     #fitting and saving the model

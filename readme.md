@@ -18,12 +18,14 @@ Parmi les taches disponibles, vous pouvez lui demander de:
 Lorsqu'il suit un objet, il est possible de déplacer avec son curseur l'objet dans la scene. Pepper essayera de le suivre tant qu'il reste dans son champ de vision.
 
 # Fonctionnement
+
 Il y a deux réseaux de neurones qui ont été implémentés dans le système. Un pour la reconnaissance d'images (Perception) et l'autre pour le chatbot (Communication).
 
 Le dataset de la reconnaissance d'image à été généré à l'aide de qiBullet. On a tenté de faire apprendre au modèle les coordonnées afin de générer des "bounding box" plus facilement et plus efficacement. Cela n'a pas pu etre implémenté malheureusement. Les "bounding box" sont donc calculées en réduisant successivement la fenêtre de detection.
 
 # Prochain objectif
-Pour l'instant pepper a du mal à suivre correctement une cible (comme vu en vidéo). Elle gère mal la rotation et donc perd la cible de vue. C'est donc une fonctionalité à affiner. 
+Pour l'instant pepper ne détecte pas les obstacles pour les éviter, mais ce serait à ajouter. 
+De plus il faudrait ajouter plus d'objet dans la scène. On s'est contenté de deux puisqu'on avait et on a encore des erreurs de détection. Elle confond parfois la balle avec le canard, ou n'arrive pas à détecter la balle.
 
 # 📜 Execution
 

@@ -53,7 +53,8 @@ class Robot(Thread):
         elif (orderType == "lookAt"):
             self.posture('search')
             x, y = orderContent
-            self.moveTo(0,0,math.atan2(y,x))
+            rx, ry = self.getPosition()
+            self.moveTo(rx,ry,math.atan2(y,x))
 
             self.com.say("Nice view !")
 
@@ -76,26 +77,21 @@ class Robot(Thread):
             result = self.perception.findLocationInScreen(target)
             if result != None:
                 coefFoireux = result[0]/32
-                angle_foireux = -((math.pi)/2)*coefFoireux
+                angle_foireux = -((math.pi)/4)*coefFoireux
                 x, y = self.getPosition()
-                #self.moveTo(0.0, 0.0, ((math.pi)/2)*coefFoireux)
                 CTE = 50
-                #self.moveTo(0.0,0.0, angle_foireux, True)
-                self.moveTo(x + CTE*math.cos(self.getRotation()), y + CTE*math.sin(self.getRotation()), 0, True)
+                self.moveTo(x + CTE*math.cos(self.getRotation()), y + CTE*math.sin(self.getRotation()), angle_foireux, 1, True)
             else:
                 self.stop()
-                #self.find(target)
-                #async_result = pool.apply_async(self.find, (target))
-                #async_result.get() 
-
-
 
     def find(self, target):
         result = False
         while(not self.taskCanceled):
             # 10 * PI/5 = 2PI
             for i in range(10):
-                self.moveTo(0.0, 0.0, math.pi/5)
+                x, y = self.getPosition()
+                r = self.getRotation()
+                self.moveTo(x, y, r+(math.pi/5))
                 result = self.perception.find(target)
                 if result or self.taskCanceled:
                     break
@@ -129,8 +125,8 @@ class Robot(Thread):
         self.pepper.move(x,y,theta)
 
     # move to crd
-    def moveTo(self,x,y,theta,asyncMode=False): 
-        self.pepper.moveTo(x,y,theta,1,_async=asyncMode,speed=2.0)
+    def moveTo(self,x,y,theta,t=0, asyncMode=False): 
+        self.pepper.moveTo(x,y,theta,t,_async=asyncMode,speed=2.0)
 
     def wander(self): # Deplacement sans but precis
         randomX = random.randint(-2,2)
