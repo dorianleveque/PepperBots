@@ -22,6 +22,9 @@ Il y a deux réseaux de neurones qui ont été implémentés dans le système. U
 
 Le dataset de la reconnaissance d'image à été généré à l'aide de qiBullet. On a tenté de faire apprendre au modèle les coordonnées afin de générer des "bounding box" plus facilement et plus efficacement. Cela n'a pas pu etre implémenté malheureusement. Les "bounding box" sont donc calculées en réduisant successivement la fenêtre de detection.
 
+# Prochain objectif
+Pour l'instant pepper a du mal à suivre correctement une cible (comme vu en vidéo). Elle gère mal la rotation et donc perd la cible de vue. C'est donc une fonctionalité à affiner. 
+
 # 📜 Execution
 
 Plusieurs commandes sont disponibles dans le projet:
