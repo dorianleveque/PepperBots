@@ -1,4 +1,14 @@
-# PepperBots
+<div align="center">
+    <img src="assets/pepperBots-logo.jpg" alt="drawing" width="200px;"/>
+    <h1>
+        <b>
+          PepperBots
+        </b>
+    </h1>
+    <h3>Pepper robot will tried to satisty your desire</h3>
+    </br>
+    </br>
+</div>
 
 # 📝 Description of the project
 
